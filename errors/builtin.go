@@ -1,0 +1,68 @@
+package errors
+
+import "strings"
+
+var (
+	ErrUnauthorized error
+
+	ErrDuplicateEntry error
+
+	ErrFieldRequired error
+
+	ErrFieldBelowMinimum = func(min any) error {
+		return registerBuiltinError("ErrFieldBelowMinimum", min)
+	}
+
+	ErrFieldAboveMaximum = func(max any) error {
+		return registerBuiltinError("ErrFieldAboveMaximum", max)
+	}
+
+	ErrFieldMustBeEmail    error
+	ErrFieldMustBeDigit    error
+	ErrFieldMustBeAlphanum error
+	ErrFieldMustBeAlphabet error
+	ErrFieldMustBeDate     error
+	ErrFieldMustBeDatetime error
+
+	ErrFieldLengthBelowMinimum = func(min int) error {
+		return registerBuiltinError("ErrFieldLengthBelowMinimum", min)
+	}
+
+	ErrFieldLengthAboveMaximum = func(max int) error {
+		return registerBuiltinError("ErrFieldLengthAboveMaximum", max)
+	}
+
+	ErrFieldUnsupportedDataType error
+
+	ErrFieldInvalidParam = func(param any) error {
+		return registerBuiltinError("ErrFieldInvalidParam", param)
+	}
+
+	ErrFieldMustBeName error
+
+	ErrFieldMustBeText error
+
+	ErrFieldMustBeOneOf = func(allowed []string) error {
+		return registerBuiltinError("ErrFieldMustBeOneOf", strings.Join(allowed, ", "))
+	}
+
+	ErrUnsupportedContentType error
+)
+
+func init() {
+	loadYamlFile("builtin_list.yaml")
+
+	ErrUnauthorized = registerBuiltinError("ErrUnauthorized")
+	ErrDuplicateEntry = registerBuiltinError("ErrDuplicateEntry")
+	ErrFieldRequired = registerBuiltinError("ErrFieldRequired")
+	ErrFieldMustBeEmail = registerBuiltinError("ErrFieldMustBeEmail")
+	ErrFieldMustBeDigit = registerBuiltinError("ErrFieldMustBeDigit")
+	ErrFieldMustBeAlphanum = registerBuiltinError("ErrFieldMustBeAlphanum")
+	ErrFieldMustBeAlphabet = registerBuiltinError("ErrFieldMustBeAlphabet")
+	ErrFieldMustBeDate = registerBuiltinError("ErrFieldMustBeDate")
+	ErrFieldMustBeDatetime = registerBuiltinError("ErrFieldMustBeDatetime")
+	ErrFieldUnsupportedDataType = registerBuiltinError("ErrFieldUnsupportedDataType")
+	ErrFieldMustBeName = registerBuiltinError("ErrFieldMustBeName")
+	ErrFieldMustBeText = registerBuiltinError("ErrFieldMustBeText")
+	ErrUnsupportedContentType = registerBuiltinError("ErrUnsupportedContentType")
+}

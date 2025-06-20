@@ -1,0 +1,95 @@
+errors:
+  ErrUnauthorized:
+    code: 1001
+    en: "Unauthorized session."
+    id: "Sesi tidak diijinkan."
+
+  ErrDuplicateEntry:
+    code: 1002
+    en: "Duplicate entry."
+    id: "Data ganda ditemukan."
+
+  ErrFieldRequired:
+    code: 1003
+    en: "Field is required."
+    id: "Kolom wajib diisi."
+
+  ErrFieldBelowMinimum:
+    code: 1004
+    en: "Must be greater than or equal to %v."
+    id: "Harus lebih besar dari atau sama dengan %v."
+
+  ErrFieldAboveMaximum:
+    code: 1005
+    en: "Must be less than or equal to %v."
+    id: "Harus kurang dari atau sama dengan %v."
+
+  ErrFieldMustBeEmail:
+    code: 1006
+    en: "Must be a valid email address."
+    id: "Harus alamat email yang valid."
+
+  ErrFieldMustBeDigit:
+    code: 1007
+    en: "Must be valid digit."
+    id: "Harus digit."
+    
+  ErrFieldMustBeAlphanum:
+    code: 1008
+    en: "Must be alphanumeric."
+    id: "Kolom harus alfanumerik."
+
+  ErrFieldMustBeAlphabet:
+    code: 1009
+    en: "Must be alphabet."
+    id: "Harus alfabet."
+  
+  ErrFieldLengthBelowMinimum:
+    code: 1010
+    en: "Must be at least %d character(s)."
+    id: "Panjang minimal %d karakter."
+
+  ErrFieldLengthAboveMaximum:
+    code: 1011
+    en: "Must be at most %d characters."
+    id: "Panjang maksimal %d character."
+
+  ErrFieldMustBeDate:
+    code: 1012
+    en: "Invalid date format (yyyy-mm-dd)."
+    id: "Format tanggal salah (yyyy-mm-dd)."
+
+  ErrFieldMustBeDatetime:
+    code: 1013
+    en: "Invalid datetime format (yyyy-mm-dd hh:mm:ss)."
+    id: "Format tanggal dan waktu salah (yyyy-mm-dd hh:mm:ss)."
+
+  ErrFieldUnsupportedDataType:
+    code: 1014
+    en: "Unsupported data type."
+    id: "Tipe data tidak dikenali."
+
+  ErrFieldInvalidParam:
+    code: 1015
+    en: "Invalid parameter %v."
+    id: "Parameter %v tidak dikenali."
+
+  ErrFieldMustBeName:
+    code: 1016
+    en: "Invalid name format."
+    id: "Format nama tidak valid."
+
+  ErrFieldMustBeText:
+    code: 1017
+    en: "Invalid text format"
+    id: "Format teks tidak valid."
+
+  ErrFieldMustBeOneOf:
+    code: 1018
+    en: "Must be one of %v."
+    id: "Harus salah satu dari %v."
+
+  ErrUnsupportedContentType:
+    code: 1019
+    en: "Unsupported Content-Type"
+    id: "Content-Type tidak dikenali"
