@@ -5,7 +5,7 @@ import (
 	"strings"
 	"sync"
 
-	"godev90/validator/errors"
+	"github.com/godev90/validator/errors"
 )
 
 type (

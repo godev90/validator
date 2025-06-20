@@ -2,11 +2,12 @@ package validator
 
 import (
 	"fmt"
-	"godev90/validator/errors"
 	"reflect"
 	"regexp"
 	"strconv"
 	"time"
+
+	"github.com/godev90/validator/errors"
 )
 
 var (

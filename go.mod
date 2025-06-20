@@ -1,4 +1,4 @@
-module godev90/validator
+module github.com/godev90/validator
 
 go 1.23.4
 

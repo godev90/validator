@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"godev90/validator/errors"
+	"github.com/godev90/validator/errors"
 )
 
 type Datetime time.Time
