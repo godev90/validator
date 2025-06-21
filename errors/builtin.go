@@ -50,6 +50,18 @@ var (
 	ErrCannotBeNull           error
 	ErrTypeMismatch           error
 	ErrUnknownSession         error
+
+	ErrForbidden          error
+	ErrNotFound           error
+	ErrTooManyRequest     error
+	ErrNotAllowed         error
+	ErrInvalidInput       error
+	ErrInternalServer     error
+	ErrBadRequest         error
+	ErrRequestTimeout     error
+	ErrUnprocessable      error
+	ErrServiceUnavailable error
+	ErrBadGateway         error
 )
 
 func init() {
@@ -71,4 +83,15 @@ func init() {
 	ErrCannotBeNull = registerBuiltinError("ErrCannotBeNull")
 	ErrTypeMismatch = registerBuiltinError("ErrTypeMismatch")
 	ErrUnknownSession = registerBuiltinError("ErrUnknownSession")
+	ErrForbidden = registerBuiltinError("ErrForbidden")
+	ErrNotFound = registerBuiltinError("ErrNotFound")
+	ErrTooManyRequest = registerBuiltinError("ErrTooManyRequest")
+	ErrNotAllowed = registerBuiltinError("ErrNotAllowed")
+	ErrInvalidInput = registerBuiltinError("ErrInvalidInput")
+	ErrInternalServer = registerBuiltinError("ErrInternalServer")
+	ErrBadRequest = registerBuiltinError("ErrBadRequest")
+	ErrRequestTimeout = registerBuiltinError("ErrRequestTimeout")
+	ErrUnprocessable = registerBuiltinError("ErrUnprocessable")
+	ErrServiceUnavailable = registerBuiltinError("ErrServiceUnavailable")
+	ErrBadGateway = registerBuiltinError("ErrBadGateway")
 }

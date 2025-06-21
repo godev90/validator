@@ -108,3 +108,59 @@ errors:
     code: 1022
     en: "Unknown session"
     id: "Session tidak dikenali"
+
+  ErrForbidden:
+    code: 1023
+    en: "Forbidden access."
+    id: "Akses dibatasi."
+
+  ErrNotFound:
+    code: 1024
+    en: "Record not found."
+    id: "Data tidak ditemukan."
+
+  ErrTooManyRequest:
+    code: 1024
+    en: "Too many requests."
+    id: "Terlalu banyak request."
+
+  ErrNotAllowed:
+    code: 1025
+    en: "Request not allowed."
+    id: "Permintaan tidak diijinkan."
+
+  ErrInvalidInput:
+    code: 1026
+    en: "Invalid input."
+    id: "Input tidak valid."
+
+  ErrInternalServer:
+    code: 1027
+    en: "Internal server error."
+    id: "Kesalahan internal server."
+
+  ErrBadRequest:
+    code: 1028
+    en: "Bad request."
+    id: "Permintaan tidak valid."
+
+  ErrRequestTimeout:
+    code: 1029
+    en: "Request timeout."
+    id: "Waktu permintaan habis."
+
+  ErrUnprocessable:
+    code: 1030
+    en: "Unprocessable entity."
+    id: "Permintaan tidak dapat diproses."
+
+  ErrServiceUnavailable:
+    code: 1031
+    en: "Service unavailable."
+    id: "Layanan tidak tersedia."
+  
+  ErrBadGateway:
+    code: 1032
+    en: "Bad gateway."
+    id: "Server gateway tidak merespon dengan benar"
+  
