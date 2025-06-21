@@ -28,31 +28,31 @@ Here's a complete working example using common rules like `required`, `email`, a
 package main
 
 import (
-	"fmt"
-	"github.com/godev90/validator"
+    "fmt"
+    "github.com/godev90/validator"
 )
 
 type User struct {
-	Name  string `validate:"required"`
-	Email string `validate:"required,email"`
-	Age   int    `validate:"min=18"`
+    Name  string `validate:"required"`
+    Email string `validate:"required,email"`
+    Age   int    `validate:"min=18"`
 }
 
 func main() {
-	user := User{
-		Name:  "",
-		Email: "invalid-email",
-		Age:   16,
-	}
+    user := User{
+        Name:  "",
+	Email: "invalid-email",
+	Age:   16,
+    }
 
-	err := validator.ValidateStruct(user)
-	if err != nil {
-		fmt.Println("Validation failed:")
-		fmt.Println(err)
-		return
-	}
+    err := validator.ValidateStruct(user)
+    if err != nil {
+	fmt.Println("Validation failed:")
+	fmt.Println(err)
+	return
+    }
 
-	fmt.Println("Validation passed!")
+    fmt.Println("Validation passed!")
 }
 ```
 
@@ -64,41 +64,43 @@ Register your own validation `even`.
 package main
 
 import (
-	"fmt"
-	"github.com/godev90/validator"
+    "fmt"
+    "github.com/godev90/validator"
 )
 
 func init() {
-	validator.RegisterValidator("even", func(value any, param string) error {
-		num, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("invalid type for even check")
-		}
-		if num%2 != 0 {
-			return fmt.Errorf("must be an even number")
-		}
-		return nil
-	})
+    validator.RegisterValidator("even", func(value any, param string) error {
+	num, ok := value.(int)
+	if !ok {
+	    return fmt.Errorf("invalid type for even check")
+        }
+
+        if num%2 != 0 {
+	    return fmt.Errorf("must be an even number")
+	}
+
+	return nil
+    })
 }
 
 type Transaction struct {
-	Amount int    `validate:"required,even"`
-	Code   string `validate:"required,min=4,max=10"`
+    Amount int    `validate:"required,even"`
+    Code   string `validate:"required,min=4,max=10"`
 }
 
 func main() {
-	tx := Transaction{
-		Amount: 7,
-		Code:   "AB",
-	}
+    tx := Transaction{
+        Amount: 7,
+        Code:   "AB",
+    }
 
-	err := validator.ValidateStruct(tx)
-	if err != nil {
-		fmt.Println("Validation failed:")
-		fmt.Println(err)
-		return
-	}
+    err := validator.ValidateStruct(tx)
+    if err != nil {
+        fmt.Println("Validation failed:")
+        fmt.Println(err)
+        return
+    }
 
-	fmt.Println("Validation passed!")
+    fmt.Println("Validation passed!")
 }
 ```
