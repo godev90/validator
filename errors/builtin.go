@@ -47,6 +47,9 @@ var (
 	}
 
 	ErrUnsupportedContentType error
+	ErrCannotBeNull           error
+	ErrTypeMismatch           error
+	ErrUnknownSession         error
 )
 
 func init() {
@@ -65,4 +68,7 @@ func init() {
 	ErrFieldMustBeName = registerBuiltinError("ErrFieldMustBeName")
 	ErrFieldMustBeText = registerBuiltinError("ErrFieldMustBeText")
 	ErrUnsupportedContentType = registerBuiltinError("ErrUnsupportedContentType")
+	ErrCannotBeNull = registerBuiltinError("ErrCannotBeNull")
+	ErrTypeMismatch = registerBuiltinError("ErrTypeMismatch")
+	ErrUnknownSession = registerBuiltinError("ErrUnknownSession")
 }

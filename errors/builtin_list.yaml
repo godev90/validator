@@ -91,5 +91,20 @@ errors:
 
   ErrUnsupportedContentType:
     code: 1019
-    en: "Unsupported Content-Type"
-    id: "Content-Type tidak dikenali"
+    en: "Unsupported Content-Type."
+    id: "Content-Type tidak dikenali."
+
+  ErrCannotBeNull:
+    code: 1020
+    en: "Cannot be null."
+    id: "Tidak boleh kosong."
+
+  ErrTypeMismatch:
+    code: 1021
+    en: "Data type mismatch."
+    id: "Tipe data tidak cocok."
+
+  ErrUnknownSession:
+    code: 1022
+    en: "Unknown session"
+    id: "Session tidak dikenali"
