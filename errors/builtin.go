@@ -17,12 +17,12 @@ var (
 		return registerBuiltinError("ErrFieldAboveMaximum", max)
 	}
 
-	ErrFieldMustBeEmail    error
-	ErrFieldMustBeDigit    error
-	ErrFieldMustBeAlphanum error
-	ErrFieldMustBeAlphabet error
-	ErrFieldMustBeDate     error
-	ErrFieldMustBeDatetime error
+	ErrFieldMustBeEmail      error
+	ErrFieldMustBeDigit      error
+	ErrFieldMustBeAlphanum   error
+	ErrFieldMustBeAlphabet   error
+	ErrInvalidDateFormat     error
+	ErrInvalidDatetimeFormat error
 
 	ErrFieldLengthBelowMinimum = func(min int) error {
 		return registerBuiltinError("ErrFieldLengthBelowMinimum", min)
@@ -51,17 +51,20 @@ var (
 	ErrTypeMismatch           error
 	ErrUnknownSession         error
 
-	ErrForbidden          error
-	ErrNotFound           error
-	ErrTooManyRequest     error
-	ErrNotAllowed         error
-	ErrInvalidInput       error
-	ErrInternalServer     error
-	ErrBadRequest         error
-	ErrRequestTimeout     error
-	ErrUnprocessable      error
-	ErrServiceUnavailable error
-	ErrBadGateway         error
+	ErrForbidden            error
+	ErrNotFound             error
+	ErrTooManyRequest       error
+	ErrNotAllowed           error
+	ErrInvalidInput         error
+	ErrInternalServer       error
+	ErrBadRequest           error
+	ErrRequestTimeout       error
+	ErrUnprocessable        error
+	ErrServiceUnavailable   error
+	ErrBadGateway           error
+	ErrInvalidNumericFormat error
+	ErrInvalidFloatNumber   error
+	ErrInvalidIntegerNumber error
 )
 
 func init() {
@@ -74,8 +77,8 @@ func init() {
 	ErrFieldMustBeDigit = registerBuiltinError("ErrFieldMustBeDigit")
 	ErrFieldMustBeAlphanum = registerBuiltinError("ErrFieldMustBeAlphanum")
 	ErrFieldMustBeAlphabet = registerBuiltinError("ErrFieldMustBeAlphabet")
-	ErrFieldMustBeDate = registerBuiltinError("ErrFieldMustBeDate")
-	ErrFieldMustBeDatetime = registerBuiltinError("ErrFieldMustBeDatetime")
+	ErrInvalidDateFormat = registerBuiltinError("ErrInvalidDateFormat")
+	ErrInvalidDatetimeFormat = registerBuiltinError("ErrInvalidDatetimeFormat")
 	ErrFieldUnsupportedDataType = registerBuiltinError("ErrFieldUnsupportedDataType")
 	ErrFieldMustBeName = registerBuiltinError("ErrFieldMustBeName")
 	ErrFieldMustBeText = registerBuiltinError("ErrFieldMustBeText")
@@ -94,4 +97,7 @@ func init() {
 	ErrUnprocessable = registerBuiltinError("ErrUnprocessable")
 	ErrServiceUnavailable = registerBuiltinError("ErrServiceUnavailable")
 	ErrBadGateway = registerBuiltinError("ErrBadGateway")
+	ErrInvalidNumericFormat = registerBuiltinError("ErrInvalidNumericFormat")
+	ErrInvalidFloatNumber = registerBuiltinError("ErrInvalidFloatNumber")
+	ErrInvalidIntegerNumber = registerBuiltinError("ErrInvalidFloatNumber")
 }

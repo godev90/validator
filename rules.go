@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/godev90/validator/errors"
+	"github.com/godev90/validator/types"
 )
 
 var (
@@ -43,38 +44,45 @@ func minRule(value any, param string) error {
 
 	switch val.Kind() {
 	case reflect.String:
-		// Check if the string can be parsed to float (e.g. Integer type)
 		if f, err := strconv.ParseFloat(val.String(), 64); err == nil {
 			if f < minVal {
 				return errors.ErrFieldBelowMinimum(int64(minVal))
 			}
 		} else {
-			// fallback to length check if not a number
-			if float64(len(val.String())) < minVal {
-				return errors.ErrFieldBelowMinimum(int64(minVal))
-			}
+			return errors.ErrInvalidNumericFormat
 		}
+
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		if float64(val.Int()) < minVal {
 			return errors.ErrFieldBelowMinimum(int64(minVal))
 		}
+
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		if float64(val.Uint()) < minVal {
 			return errors.ErrFieldBelowMinimum(int64(minVal))
 		}
+
 	case reflect.Float32, reflect.Float64:
 		if val.Float() < minVal {
 			return errors.ErrFieldBelowMinimum(int64(minVal))
 		}
+
 	default:
-		// Try to parse from string
+		// Cek jika implement Validatable
+		if v, ok := value.(types.Validatable); ok {
+			if err := v.Err(); err != nil {
+				return err
+			}
+		}
+
+		// Fallback parse via string
 		s := fmt.Sprintf("%v", value)
 		if f, err := strconv.ParseFloat(s, 64); err == nil {
 			if f < minVal {
 				return errors.ErrFieldBelowMinimum(int64(minVal))
 			}
 		} else {
-			return errors.ErrFieldUnsupportedDataType
+			return errors.ErrInvalidNumericFormat
 		}
 	}
 
@@ -91,16 +99,12 @@ func maxRule(value any, param string) error {
 
 	switch val.Kind() {
 	case reflect.String:
-		// Try parse as float
 		if f, err := strconv.ParseFloat(val.String(), 64); err == nil {
 			if f > maxVal {
 				return errors.ErrFieldAboveMaximum(int64(maxVal))
 			}
 		} else {
-			// fallback to string length
-			if float64(len(val.String())) > maxVal {
-				return errors.ErrFieldAboveMaximum(int64(maxVal))
-			}
+			return errors.ErrInvalidNumericFormat
 		}
 
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
@@ -119,14 +123,21 @@ func maxRule(value any, param string) error {
 		}
 
 	default:
-		// Try fallback: convert to float via string
+		// Cek jika value punya method Err() error
+		if errVal, ok := value.(types.Validatable); ok {
+			if err := errVal.Err(); err != nil {
+				return err
+			}
+		}
+
+		// Fallback parse dari string
 		s := fmt.Sprintf("%v", value)
 		if f, err := strconv.ParseFloat(s, 64); err == nil {
 			if f > maxVal {
 				return errors.ErrFieldAboveMaximum(int64(maxVal))
 			}
 		} else {
-			return errors.ErrFieldUnsupportedDataType
+			return errors.ErrInvalidNumericFormat
 		}
 	}
 
@@ -187,13 +198,13 @@ func dateRule(value any, _ string) error {
 	case fmt.Stringer:
 		s = v.String()
 	default:
-		return errors.ErrFieldMustBeDate
+		return errors.ErrInvalidDateFormat
 	}
 
 	const format = "2006-01-02"
 
 	if _, err := time.Parse(format, s); err != nil {
-		return errors.ErrFieldMustBeDate
+		return errors.ErrInvalidDateFormat
 	}
 
 	return nil
@@ -208,14 +219,14 @@ func datetimeRule(value any, _ string) error {
 	case fmt.Stringer:
 		s = v.String()
 	default:
-		return errors.ErrFieldMustBeDatetime
+		return errors.ErrInvalidDatetimeFormat
 	}
 
 	layout := "2006-01-02 15:04:05"
 
 	_, err := time.Parse(layout, s)
 	if err != nil {
-		return errors.ErrFieldMustBeDatetime
+		return errors.ErrInvalidDatetimeFormat
 	}
 	return nil
 

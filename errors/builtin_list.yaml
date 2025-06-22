@@ -1,8 +1,8 @@
 errors:
   ErrUnauthorized:
     code: 1001
-    en: "Unauthorized session."
-    id: "Sesi tidak diijinkan."
+    en: "Unauthorized user."
+    id: "User tidak diijinkan."
 
   ErrDuplicateEntry:
     code: 1002
@@ -54,12 +54,12 @@ errors:
     en: "Must be at most %d characters."
     id: "Panjang maksimal %d character."
 
-  ErrFieldMustBeDate:
+  ErrInvalidDateFormat:
     code: 1012
     en: "Invalid date format (yyyy-mm-dd)."
     id: "Format tanggal salah (yyyy-mm-dd)."
 
-  ErrFieldMustBeDatetime:
+  ErrInvalidDatetimeFormat:
     code: 1013
     en: "Invalid datetime format (yyyy-mm-dd hh:mm:ss)."
     id: "Format tanggal dan waktu salah (yyyy-mm-dd hh:mm:ss)."
@@ -163,4 +163,17 @@ errors:
     code: 1032
     en: "Bad gateway."
     id: "Server gateway tidak merespon dengan benar"
-  
+
+  ErrInvalidNumericFormat:
+    code: 1033
+    en: "Invalid numeric."
+    id: "Harus berupa angka numerik"
+
+  ErrInvalidFloatNumber:
+    code: 1034
+    en: "Invalid float number."
+    id: "Harus berupa angka pecahan"
+
+  ErrInvalidIntegerNumber:
+    en: "Invalid integer number."
+    id: "Harus berupa angka bulat"
