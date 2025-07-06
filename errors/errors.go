@@ -81,6 +81,20 @@ func New(err error, attr *ErrAttr, args ...any) error {
 	return &newError
 }
 
+func RegisterBuiltinError(key string, args ...any) error {
+	return registerBuiltinError(key, args...)
+}
+
+func AddErrPack(key string, langPack ErrAttr) error {
+	if _, found := errorLangPack[key]; found {
+		return fmt.Errorf("error %s already registered", key)
+	}
+
+	errorLangPack[key] = langPack
+
+	return nil
+}
+
 func Is(err error, target error) bool {
 	return errors.Is(err, target)
 }
