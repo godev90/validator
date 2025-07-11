@@ -175,5 +175,6 @@ errors:
     id: "Harus berupa angka pecahan"
 
   ErrInvalidIntegerNumber:
+    code: 1035
     en: "Invalid integer number."
     id: "Harus berupa angka bulat"
