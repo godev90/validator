@@ -1,9 +1,10 @@
 package types
 
 import (
+	"database/sql"
 	"database/sql/driver"
 	"encoding/json"
-	"fmt"
+	"strings"
 	"time"
 
 	"github.com/godev90/validator/errors"
@@ -15,9 +16,12 @@ type Date struct {
 	err error
 }
 
-const dateLayout = "2006-01-02"
+const (
+	dateLayout         = "2006-01-02"
+	datetimeLayout     = "2006-01-02 15:04:05"
+	datetimeISOZLayout = "2006-01-02T15:04:05Z"
+)
 
-// Set assigns a value to Date, accepts time.Time or string
 func (d *Date) Set(val any) error {
 	d.err = nil
 
@@ -25,16 +29,37 @@ func (d *Date) Set(val any) error {
 	case time.Time:
 		d.t = v
 		d.s = v.Format(dateLayout)
+		return nil
 
 	case string:
-		d.s = v
-		t, err := time.Parse(dateLayout, v)
-		if err != nil {
-			d.err = errors.ErrInvalidDateFormat
-			d.t = time.Time{}
-			return nil
+
+		layouts := []string{
+			dateLayout,
+			datetimeISOZLayout,
+			time.RFC3339,
+			datetimeLayout,
 		}
-		d.t = t
+
+		for _, layout := range layouts {
+			var t time.Time
+			var err error
+
+			if strings.HasSuffix(layout, "Z") || layout == time.RFC3339 {
+				t, err = time.Parse(layout, v)
+			} else {
+				t, err = time.ParseInLocation(layout, v, time.Local)
+			}
+
+			if err == nil {
+				d.t = t
+				d.s = t.Format(dateLayout)
+				return nil
+			}
+		}
+
+		d.err = errors.ErrInvalidDateFormat
+		d.t = time.Time{}
+		d.s = ""
 
 	default:
 		d.err = errors.ErrFieldUnsupportedDataType
@@ -113,16 +138,19 @@ func (d *Date) Scan(value any) error {
 		d.Set(v)
 
 	case []byte:
-		_ = d.Set(string(v))
+		d.err = d.Set(string(v))
+
+	case sql.RawBytes:
+		d.err = d.Set(string([]byte(v)))
 
 	case string:
-		_ = d.Set(v)
+		d.err = d.Set(v)
 
 	default:
-		d.err = fmt.Errorf("unsupported type for Date: %T", value)
+		d.err = errors.ErrUnsupportedDate
 	}
 
-	return nil
+	return d.err
 }
 
 func NewDate(value time.Time) Date {

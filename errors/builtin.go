@@ -65,6 +65,8 @@ var (
 	ErrInvalidNumericFormat error
 	ErrInvalidFloatNumber   error
 	ErrInvalidIntegerNumber error
+	ErrUnsupportedDate      error
+	ErrUnsuppotedDatetime   error
 )
 
 func init() {
@@ -100,4 +102,6 @@ func init() {
 	ErrInvalidNumericFormat = registerBuiltinError("ErrInvalidNumericFormat")
 	ErrInvalidFloatNumber = registerBuiltinError("ErrInvalidFloatNumber")
 	ErrInvalidIntegerNumber = registerBuiltinError("ErrInvalidFloatNumber")
+	ErrUnsupportedDate = registerBuiltinError("ErrUnsupportedDate")
+	ErrUnsuppotedDatetime = registerBuiltinError("ErrUnsupportedDatetime")
 }

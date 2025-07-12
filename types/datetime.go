@@ -1,9 +1,10 @@
 package types
 
 import (
+	"database/sql"
 	"database/sql/driver"
 	"encoding/json"
-	"fmt"
+	"strings"
 	"time"
 
 	"github.com/godev90/validator/errors"
@@ -15,9 +16,6 @@ type Datetime struct {
 	err error
 }
 
-const datetimeLayout = "2006-01-02 15:04:05"
-
-// Set assigns a value to Datetime, accepts string or time.Time
 func (d *Datetime) Set(val any) error {
 	d.err = nil
 
@@ -27,14 +25,34 @@ func (d *Datetime) Set(val any) error {
 		d.s = v.Format(datetimeLayout)
 
 	case string:
-		d.s = v
-		t, err := time.Parse(datetimeLayout, v)
-		if err != nil {
-			d.err = errors.ErrInvalidDatetimeFormat
-			d.t = time.Time{}
-			return nil
+		layouts := []string{
+			datetimeLayout,
+			datetimeISOZLayout,
+			time.RFC3339,
+			dateLayout,
 		}
-		d.t = t
+
+		for _, layout := range layouts {
+			var t time.Time
+			var err error
+
+			if strings.HasSuffix(layout, "Z") || layout == time.RFC3339 {
+				t, err = time.Parse(layout, v)
+			} else {
+				t, err = time.ParseInLocation(layout, v, time.Local)
+			}
+
+			if err == nil {
+				d.t = t
+				d.s = t.Format(datetimeLayout)
+				return nil
+			}
+
+		}
+
+		d.err = errors.ErrInvalidDatetimeFormat
+		d.t = time.Time{}
+		d.s = ""
 
 	default:
 		d.t = time.Time{}
@@ -112,16 +130,19 @@ func (d *Datetime) Scan(value any) error {
 		d.Set(v)
 
 	case []byte:
-		_ = d.Set(string(v))
+		d.err = d.Set(string(v))
+
+	case sql.RawBytes:
+		d.err = d.Set(string([]byte(v)))
 
 	case string:
-		_ = d.Set(v)
+		d.err = d.Set(v)
 
 	default:
-		d.err = fmt.Errorf("unsupported type for Datetime: %T", value)
+		d.err = errors.ErrUnsuppotedDatetime
 	}
 
-	return nil
+	return d.err
 }
 
 func NewDatetime(value time.Time) Datetime {

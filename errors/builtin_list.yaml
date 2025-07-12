@@ -178,3 +178,13 @@ errors:
     code: 1035
     en: "Invalid integer number."
     id: "Harus berupa angka bulat"
+
+  ErrUnsupportedDate:
+    code: 1036
+    en: "Unsupported date type."
+    id: "Tipe tanggal tidak didukung."
+
+  ErrUnsupportedDatetime:
+    code: 1037
+    en: "Unsupported datetime type."
+    id: "Tipe tanggal dan waktu tidak didukung."

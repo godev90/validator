@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/godev90/validator/errors"
 )
@@ -37,13 +38,19 @@ func (i *Integer) Set(val any) error {
 			i.err = errors.ErrInvalidIntegerNumber
 		}
 	case string:
+		if strings.TrimSpace(v) == "" {
+			i.s = ""
+			i.i = 0
+			i.err = nil // treat empty as NULL, not error
+			return nil
+		}
 		i.s = v
 		parsed, err := strconv.ParseInt(v, 10, 64)
 		i.i = parsed
-
 		if err != nil {
 			i.err = errors.ErrInvalidIntegerNumber
 		}
+
 	default:
 		i.s = ""
 		i.i = 0
@@ -81,9 +88,10 @@ func (i *Integer) UnmarshalText(text []byte) error {
 }
 
 func (i Integer) MarshalJSON() ([]byte, error) {
-	if i.err != nil {
-		return nil, i.err
+	if !i.Valid() {
+		return json.Marshal(nil)
 	}
+
 	return json.Marshal(i.i)
 }
 
