@@ -1,4 +1,4 @@
-package types
+package typedef
 
 import (
 	"database/sql/driver"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/godev90/validator/errors"
+	"github.com/godev90/validator/faults"
 )
 
 type Float struct {
@@ -38,7 +38,7 @@ func (f *Float) Set(val any) error {
 		f.f = parsed
 
 		if err != nil {
-			f.err = errors.ErrInvalidFloatNumber
+			f.err = faults.ErrInvalidFloatNumber
 		}
 	case string:
 		if strings.TrimSpace(v) == "" {
@@ -51,13 +51,13 @@ func (f *Float) Set(val any) error {
 		parsed, err := strconv.ParseFloat(v, 64)
 		f.f = parsed
 		if err != nil {
-			f.err = errors.ErrInvalidFloatNumber
+			f.err = faults.ErrInvalidFloatNumber
 		}
 
 	default:
 		f.s = ""
 		f.f = 0
-		f.err = errors.ErrInvalidFloatNumber
+		f.err = faults.ErrInvalidFloatNumber
 	}
 	return nil
 }
@@ -81,7 +81,7 @@ func (f *Float) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	f.err = errors.ErrInvalidFloatNumber
+	f.err = faults.ErrInvalidFloatNumber
 	return nil
 }
 

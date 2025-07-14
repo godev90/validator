@@ -1,4 +1,4 @@
-package types
+package typedef
 
 import (
 	"database/sql/driver"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/godev90/validator/errors"
+	"github.com/godev90/validator/faults"
 )
 
 type Integer struct {
@@ -35,7 +35,7 @@ func (i *Integer) Set(val any) error {
 		i.i = parsed
 
 		if err != nil {
-			i.err = errors.ErrInvalidIntegerNumber
+			i.err = faults.ErrInvalidIntegerNumber
 		}
 	case string:
 		if strings.TrimSpace(v) == "" {
@@ -48,13 +48,13 @@ func (i *Integer) Set(val any) error {
 		parsed, err := strconv.ParseInt(v, 10, 64)
 		i.i = parsed
 		if err != nil {
-			i.err = errors.ErrInvalidIntegerNumber
+			i.err = faults.ErrInvalidIntegerNumber
 		}
 
 	default:
 		i.s = ""
 		i.i = 0
-		i.err = errors.ErrInvalidIntegerNumber
+		i.err = faults.ErrInvalidIntegerNumber
 	}
 	return nil
 }
@@ -78,7 +78,7 @@ func (i *Integer) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	i.err = errors.ErrInvalidIntegerNumber
+	i.err = faults.ErrInvalidIntegerNumber
 	return nil
 }
 

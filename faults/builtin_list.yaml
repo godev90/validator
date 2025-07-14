@@ -1,0 +1,289 @@
+errors:
+  err_bad_request:
+    code: 4400
+    en: "Bad request."
+    id: "Permintaan tidak valid."
+
+  err_unauthorized:
+    code: 4401
+    en: "Unauthorized."
+    id: "Tidak diizinkan."
+
+  err_payment_required:
+    code: 4402
+    en: "Payment required."
+    id: "Pembayaran diperlukan."
+
+  err_forbidden:
+    code: 4403
+    en: "Forbidden."
+    id: "Akses ditolak."
+
+  err_not_found:
+    code: 4404
+    en: "Not found."
+    id: "Tidak ditemukan."
+
+  err_method_not_allowed:
+    code: 4405
+    en: "Method not allowed."
+    id: "Metode tidak diizinkan."
+
+  err_not_acceptable:
+    code: 4406
+    en: "Not acceptable."
+    id: "Tidak dapat diterima."
+
+  err_proxy_auth_required:
+    code: 4407
+    en: "Proxy authentication required."
+    id: "Autentikasi proxy diperlukan."
+
+  err_request_timeout:
+    code: 4408
+    en: "Request timeout."
+    id: "Permintaan melebihi batas waktu."
+
+  err_conflict:
+    code: 4409
+    en: "Conflict."
+    id: "Terjadi konflik."
+
+  err_gone:
+    code: 4410
+    en: "Gone."
+    id: "Sudah tidak tersedia."
+
+  err_length_required:
+    code: 4411
+    en: "Length required."
+    id: "Panjang konten diperlukan."
+
+  err_precondition_failed:
+    code: 4412
+    en: "Precondition failed."
+    id: "Prasyarat gagal dipenuhi."
+
+  err_payload_too_large:
+    code: 4413
+    en: "Payload too large."
+    id: "Ukuran data terlalu besar."
+
+  err_uri_too_long:
+    code: 4414
+    en: "URI too long."
+    id: "URI terlalu panjang."
+
+  err_unsupported_media_type:
+    code: 4415
+    en: "Unsupported media type."
+    id: "Tipe media tidak didukung."
+
+  err_range_not_satisfiable:
+    code: 4416
+    en: "Range not satisfiable."
+    id: "Jangkauan tidak dapat dipenuhi."
+
+  err_expectation_failed:
+    code: 4417
+    en: "Expectation failed."
+    id: "Ekspektasi gagal dipenuhi."
+
+  err_im_teapot:
+    code: 4418
+    en: "I'm a teapot."
+    id: "Saya adalah teko."
+
+  err_misdirected_request:
+    code: 4421
+    en: "Misdirected request."
+    id: "Permintaan salah arah."
+
+  err_unprocessable_entity:
+    code: 4422
+    en: "Unprocessable entity."
+    id: "Data tidak dapat diproses."
+
+  err_locked:
+    code: 4423
+    en: "Locked."
+    id: "Terkunci."
+
+  err_failed_dependency:
+    code: 4424
+    en: "Failed dependency."
+    id: "Ketergantungan gagal."
+
+  err_too_early:
+    code: 4425
+    en: "Too early."
+    id: "Terlalu awal untuk diproses."
+
+  err_upgrade_required:
+    code: 4426
+    en: "Upgrade required."
+    id: "Harus melakukan upgrade protokol."
+
+  err_precondition_required:
+    code: 4428
+    en: "Precondition required."
+    id: "Prasyarat diperlukan."
+
+  err_too_many_requests:
+    code: 4429
+    en: "Too many requests."
+    id: "Terlalu banyak permintaan."
+
+  err_internal_server_error:
+    code: 5500
+    en: "Internal server error."
+    id: "Kesalahan internal server."
+
+  err_not_implemented:
+    code: 5501
+    en: "Not implemented."
+    id: "Belum diimplementasikan."
+
+  err_bad_gateway:
+    code: 5502
+    en: "Bad gateway."
+    id: "Gateway tidak valid."
+
+  err_service_unavailable:
+    code: 5503
+    en: "Service unavailable."
+    id: "Layanan tidak tersedia."
+
+  err_gateway_timeout:
+    code: 5504
+    en: "Gateway timeout."
+    id: "Gateway melebihi waktu respons."
+
+  err_unprocessable:
+    code: 5505
+    en: "Unprocessable content."
+    id: "Konten tidak dapat diproses."
+
+  err_http_version_not_supported:
+    code: 5506
+    en: "HTTP version not supported."
+    id: "Versi HTTP tidak didukung."
+
+  err_insufficient_storage:
+    code: 5507
+    en: "Insufficient storage."
+    id: "Penyimpanan tidak mencukupi."
+
+  # input validator
+  err_required:
+    code: 40001
+    default: "validator: field is required."
+    en: "Field is required."
+    id: "Kolom wajib diisi."
+
+  err_below_minimum:
+    code: 40002
+    default: "validator: Below minimum value."
+    en: "Must be greater than or equal to %v."
+    id: "Harus lebih besar dari atau sama dengan %v."
+
+  err_above_maximum:
+    code: 40003
+    en: "Must be less than or equal to %v."
+    id: "Harus kurang dari atau sama dengan %v."
+
+  err_must_be_email:
+    code: 40004
+    en: "Must be a valid email address."
+    id: "Harus alamat email yang valid."
+
+  err_must_be_digit:
+    code: 40005
+    en: "Must be valid digit."
+    id: "Harus digit."
+
+  err_must_be_alphanum:
+    code: 40006
+    en: "Must be alphanumeric."
+    id: "Kolom harus alfanumerik."
+
+  err_must_be_alphabet:
+    code: 40007
+    en: "Must be alphabet."
+    id: "Harus alfabet."
+
+  err_length_below_minimum:
+    code: 40008
+    en: "Must be at least %d character(s)."
+    id: "Panjang minimal %d karakter."
+
+  err_length_above_maximum:
+    code: 40009
+    en: "Must be at most %d characters."
+    id: "Panjang maksimal %d character."
+
+  err_invalid_date_format:
+    code: 40010
+    en: "Invalid date format (yyyy-mm-dd)."
+    id: "Format tanggal salah (yyyy-mm-dd)."
+
+  err_invalid_datetime_format:
+    code: 40011
+    en: "Invalid datetime format (yyyy-mm-dd hh:mm:ss)."
+    id: "Format tanggal dan waktu salah (yyyy-mm-dd hh:mm:ss)."
+
+  err_unsupported_data_type:
+    code: 40012
+    en: "Unsupported data type."
+    id: "Tipe data tidak dikenali."
+
+  err_invalid_parameter:
+    code: 40013
+    en: "Invalid parameter %v."
+    id: "Parameter %v tidak valid."
+
+  err_must_be_name:
+    code: 40014
+    en: "Invalid name format."
+    id: "Format nama tidak valid."
+
+  err_must_be_text:
+    code: 40015
+    en: "Invalid text format"
+    id: "Format teks tidak valid."
+
+  err_must_be_one_of:
+    code: 40016
+    en: "Must be one of %v."
+    id: "Harus salah satu dari %v."
+
+  err_unsupported_content_type:
+    code: 40017
+    en: "Unsupported Content-Type."
+    id: "Content-Type tidak dikenali."
+
+  err_cannot_be_null:
+    code: 40018
+    en: "Cannot be null."
+    id: "Tidak boleh kosong."
+
+  err_type_mismatch:
+    code: 40019
+    en: "Data type mismatch."
+    id: "Tipe data tidak cocok."
+
+  err_invalid_numeric_format:
+    code: 40020
+    en: "Invalid numeric."
+    id: "Harus berupa angka numerik"
+
+  err_invalid_float_number:
+    code: 40021
+    en: "Invalid float number."
+    id: "Harus berupa angka pecahan"
+
+  err_invalid_integer_number:
+    code: 40022
+    en: "Invalid integer number."
+    id: "Harus berupa angka bulat"
+  

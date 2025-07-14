@@ -1,4 +1,4 @@
-package types
+package typedef
 
 import (
 	"database/sql"
@@ -7,29 +7,37 @@ import (
 	"strings"
 	"time"
 
-	"github.com/godev90/validator/errors"
+	"github.com/godev90/validator/faults"
 )
 
-type Datetime struct {
+type Date struct {
 	t   time.Time
 	s   string
 	err error
 }
 
-func (d *Datetime) Set(val any) error {
+const (
+	dateLayout         = "2006-01-02"
+	datetimeLayout     = "2006-01-02 15:04:05"
+	datetimeISOZLayout = "2006-01-02T15:04:05Z"
+)
+
+func (d *Date) Set(val any) error {
 	d.err = nil
 
 	switch v := val.(type) {
 	case time.Time:
 		d.t = v
-		d.s = v.Format(datetimeLayout)
+		d.s = v.Format(dateLayout)
+		return nil
 
 	case string:
+
 		layouts := []string{
-			datetimeLayout,
+			dateLayout,
 			datetimeISOZLayout,
 			time.RFC3339,
-			dateLayout,
+			datetimeLayout,
 		}
 
 		for _, layout := range layouts {
@@ -44,85 +52,85 @@ func (d *Datetime) Set(val any) error {
 
 			if err == nil {
 				d.t = t
-				d.s = t.Format(datetimeLayout)
+				d.s = t.Format(dateLayout)
 				return nil
 			}
-
 		}
 
-		d.err = errors.ErrInvalidDatetimeFormat
+		d.err = faults.ErrInvalidDateFormat
 		d.t = time.Time{}
 		d.s = ""
 
 	default:
+		d.err = faults.ErrInvalidDateFormat
 		d.t = time.Time{}
 		d.s = ""
-		d.err = errors.ErrFieldUnsupportedDataType
 	}
 
 	return nil
 }
 
-func (d Datetime) String() string {
+func (d Date) String() string {
 	return d.s
 }
 
-func (d Datetime) Time() time.Time {
+func (d Date) Time() time.Time {
 	return d.t
 }
 
-func (d Datetime) IsZero() bool {
+func (d Date) IsZero() bool {
 	return d.t.IsZero()
 }
 
-func (d Datetime) Valid() bool {
+func (d Date) Valid() bool {
 	return d.err == nil
 }
 
-func (d Datetime) Err() error {
+func (d Date) Err() error {
 	return d.err
 }
 
-func (d Datetime) Validate() error {
+func (d Date) Validate() error {
 	return d.err
 }
 
-// UnmarshalJSON parses from JSON string
-func (d *Datetime) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON parses date from JSON string
+func (d *Date) UnmarshalJSON(data []byte) error {
 	var str string
 	if err := json.Unmarshal(data, &str); err != nil {
-		d.err = errors.ErrInvalidDatetimeFormat
 		d.t = time.Time{}
 		d.s = ""
+		d.err = faults.ErrInvalidDateFormat
 		return nil
 	}
+
 	_ = d.Set(str)
 	return nil
 }
 
-// UnmarshalText parses from text (e.g. query param)
-func (d *Datetime) UnmarshalText(text []byte) error {
+// UnmarshalText parses date from text (e.g., query param)
+func (d *Date) UnmarshalText(text []byte) error {
 	return d.Set(string(text))
 }
 
-// MarshalJSON serializes to JSON
-func (d Datetime) MarshalJSON() ([]byte, error) {
+// MarshalJSON serializes the date to JSON
+func (d Date) MarshalJSON() ([]byte, error) {
 	if !d.Valid() {
 		return json.Marshal(nil)
 	}
-	return json.Marshal(d.t.Format(datetimeLayout))
+	return json.Marshal(d.t.Format(dateLayout))
 }
 
 // Value for sql.Valuer
-func (d Datetime) Value() (driver.Value, error) {
+func (d Date) Value() (driver.Value, error) {
 	if !d.Valid() {
 		return nil, d.err
 	}
-	return d.t.Format(datetimeLayout), nil
+	return d.t.Format(dateLayout), nil
 }
 
 // Scan implements sql.Scanner
-func (d *Datetime) Scan(value any) error {
+func (d *Date) Scan(value any) error {
 	d.err = nil
 
 	switch v := value.(type) {
@@ -139,16 +147,21 @@ func (d *Datetime) Scan(value any) error {
 		d.err = d.Set(v)
 
 	default:
-		d.err = errors.ErrUnsuppotedDatetime
+		d.err = faults.ErrInvalidDateFormat
 	}
 
 	return d.err
 }
 
-func NewDatetime(value time.Time) Datetime {
-	return Datetime{
+func NewDate(value time.Time) Date {
+	return Date{
 		t:   value,
-		s:   value.Format(datetimeLayout),
+		s:   value.Format(dateLayout),
 		err: nil,
 	}
+}
+
+func DateToday() Date {
+	var now time.Time = time.Now()
+	return NewDate(now)
 }

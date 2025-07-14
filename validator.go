@@ -5,7 +5,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/godev90/validator/errors"
+	"github.com/godev90/validator/faults"
 )
 
 type (
@@ -28,7 +28,7 @@ func init() {
 	RegisterValidator("email", emailRule)
 	RegisterValidator("digit", digitRule)
 	RegisterValidator("alphabet", alphabetRule)
-	RegisterValidator("alphanum", alphanunRule)
+	RegisterValidator("alphanum", alphanumRule)
 	RegisterValidator("min", minRule)
 	RegisterValidator("max", maxRule)
 	RegisterValidator("date", dateRule)
@@ -68,7 +68,7 @@ func ValidateStruct(dest any) error {
 	}
 	typ := val.Type()
 
-	errors := make(errors.Errors)
+	errors := make(faults.Errors)
 
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)

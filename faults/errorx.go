@@ -1,4 +1,4 @@
-package errors
+package faults
 
 import (
 	"encoding/json"
@@ -26,76 +26,58 @@ type (
 	}
 )
 
-var errorLangPack = make(map[string]ErrAttr)
-
-func registerBuiltinError(key string, args ...any) error {
-
-	newError := Error{
+func builtin(key string) Error {
+	errmsg := fmt.Sprintf("validator: %s.", key)
+	err := Error{
 		code:          http.StatusInternalServerError,
-		err:           errors.New(key),
+		err:           errors.New(errmsg),
 		localMessages: make(map[LanguageTag]string),
 	}
 
-	if langPack, found := errorLangPack[key]; found {
-		newError.code = langPack.Code
+	if langPack, found := builtinYaml.Packages[key]; found {
+		err.code = langPack.Code
 
 		for _, msg := range langPack.Messages {
-			newError.localMessages[msg.Tag] = fmt.Sprintf(msg.Message, args...)
+			err.localMessages[msg.Tag] = msg.Message
 		}
-
-		newError.err = errors.New(newError.localMessages[English])
 	} else {
-		log.Panic("error package not found: ", key)
+		log.Panicf("validator: error package not found (%s).", key)
 	}
 
-	return &newError
+	return err
 }
 
-func New(err error, attr *ErrAttr, args ...any) error {
+func New(err error, attr *ErrAttr, args ...any) Error {
 
 	newError := Error{
 		err:           errors.New(err.Error()),
 		localMessages: make(map[LanguageTag]string),
 	}
 
-	if langPack, found := errorLangPack[err.Error()]; found {
-		newError.code = langPack.Code
+	newError.code = http.StatusInternalServerError
 
-		for _, msg := range langPack.Messages {
-			newError.localMessages[msg.Tag] = fmt.Sprintf(msg.Message, args...)
+	if attr != nil {
+		if attr.Code != 0 {
+			newError.code = attr.Code
 		}
-	} else {
-		newError.code = http.StatusInternalServerError
 
-		if attr != nil {
-			if attr.Code != 0 {
-				newError.code = attr.Code
-			}
-
-			for _, msg := range attr.Messages {
-				newError.localMessages[msg.Tag] = msg.Message
-			}
+		for _, msg := range attr.Messages {
+			newError.localMessages[msg.Tag] = msg.Message
 		}
 	}
 
-	return &newError
-}
-
-func RegisterBuiltinError(key string, args ...any) error {
-	return registerBuiltinError(key, args...)
-}
-
-func AddErrPack(key string, langPack ErrAttr) error {
-	if _, found := errorLangPack[key]; found {
-		return fmt.Errorf("error %s already registered", key)
-	}
-
-	errorLangPack[key] = langPack
-
-	return nil
+	return newError
 }
 
 func Is(err error, target error) bool {
+	if er, ok := err.(Error); ok {
+		err = er.err
+	}
+
+	if er, ok := target.(Error); ok {
+		target = er.err
+	}
+
 	return errors.Is(err, target)
 }
 
@@ -112,7 +94,7 @@ func (err Error) Error() string {
 		return err.err.Error()
 	}
 
-	return fmt.Sprintf("something went wrong (code %d)", err.code)
+	return fmt.Sprintf("validator: something went wrong (code: %d)", err.code)
 }
 
 func (err Error) LocalizedError(tag LanguageTag) string {
@@ -121,6 +103,27 @@ func (err Error) LocalizedError(tag LanguageTag) string {
 	}
 
 	return err.Error()
+}
+
+func (err *Error) SetLocaleMessage(tag LanguageTag, message string) {
+	err.localMessages[tag] = message
+}
+
+func (err Error) SupportedTags() (tags []LanguageTag) {
+	for t := range err.localMessages {
+		tags = append(tags, t)
+	}
+
+	return tags
+}
+
+func (err Error) Render(args ...any) Error {
+	for _, t := range err.SupportedTags() {
+		msg := err.LocalizedError(t)
+		err.SetLocaleMessage(t, fmt.Sprintf(msg, args))
+	}
+
+	return err
 }
 
 func (errs Errors) Error() string {
