@@ -105,7 +105,7 @@ func (err Error) LocalizedError(tag LanguageTag) string {
 	return err.Error()
 }
 
-func (err *Error) SetLocaleMessage(tag LanguageTag, message string) {
+func (err Error) SetLocaleMessage(tag LanguageTag, message string) {
 	err.localMessages[tag] = message
 }
 
@@ -118,12 +118,23 @@ func (err Error) SupportedTags() (tags []LanguageTag) {
 }
 
 func (err Error) Render(args ...any) Error {
-	for _, t := range err.SupportedTags() {
-		msg := err.LocalizedError(t)
-		err.SetLocaleMessage(t, fmt.Sprintf(msg, args))
+	clonedMessages := make(map[LanguageTag]string, len(err.localMessages))
+	for k, v := range err.localMessages {
+		clonedMessages[k] = v
 	}
 
-	return err
+	cpy := Error{
+		code:          err.code,
+		err:           err.err,
+		localMessages: clonedMessages,
+	}
+
+	for _, t := range cpy.SupportedTags() {
+		msg := err.LocalizedError(t)
+		cpy.SetLocaleMessage(t, fmt.Sprintf(msg, args...))
+	}
+
+	return cpy
 }
 
 func (errs Errors) Error() string {
@@ -147,7 +158,7 @@ func (errs Errors) Error() string {
 
 		if ers, ok := errs[key].(Errors); ok {
 			_, _ = fmt.Fprintf(&s, "%v: (%v)", key, ers)
-		} else if er, ok := errs[key].(*Error); ok {
+		} else if er, ok := errs[key].(Error); ok {
 			if message, ok := er.localMessages[English]; ok {
 				_, _ = fmt.Fprintf(&s, "%v: %v", key, message)
 			} else {
@@ -172,7 +183,7 @@ func (errs Errors) LocalizedError(tag LanguageTag) map[string]any {
 	for key, err := range errs {
 		if ers, ok := err.(Errors); ok {
 			result[key] = ers.LocalizedError(tag)
-		} else if er, ok := errs[key].(*Error); ok {
+		} else if er, ok := errs[key].(Error); ok {
 			result[key] = er.LocalizedError(tag)
 		} else {
 			result[key] = err.Error()
