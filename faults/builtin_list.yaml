@@ -275,15 +275,15 @@ errors:
   err_invalid_numeric_format:
     code: 40020
     en: "Invalid numeric."
-    id: "Harus berupa angka numerik"
+    id: "Harus berupa angka numerik."
 
   err_invalid_float_number:
     code: 40021
     en: "Invalid float number."
-    id: "Harus berupa angka pecahan"
+    id: "Harus berupa angka pecahan."
 
   err_invalid_integer_number:
     code: 40022
     en: "Invalid integer number."
-    id: "Harus berupa angka bulat"
+    id: "Harus berupa angka bulat."
   
