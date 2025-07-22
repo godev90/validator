@@ -1,9 +1,16 @@
 package faults
 
+import (
+    "log"
+)
 func init() {
 	// loadYamlFile("builtin_list.yaml")
 	builtinYaml = NewYamlPackage()
-	builtinYaml.LoadYaml("builtin_list.yaml")
+	err := builtinYaml.LoadYaml("builtin_list.yaml")
+
+	if err != nil {
+	    log.Fatal("failed load file: ", err)
+	}
 
 	ErrBadRequest = builtin("err_bad_request")
 	ErrUnauthorized = builtin("err_unauthorized")
