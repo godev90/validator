@@ -2,11 +2,16 @@ package faults
 
 import (
     "log"
+	 _ "embed"
 )
+
+//go:embed builtin_list.yaml
+var builtinList []byte
+
 func init() {
 	// loadYamlFile("builtin_list.yaml")
 	builtinYaml = NewYamlPackage()
-	err := builtinYaml.LoadYaml("builtin_list.yaml")
+	err := builtinYaml.LoadBytes(builtinList)
 
 	if err != nil {
 	    log.Fatal("failed load file: ", err)

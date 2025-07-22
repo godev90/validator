@@ -42,6 +42,11 @@ func (raw YamlPackage) LoadYaml(filename string) error {
 	return raw.collectErrors(data)
 }
 
+func (raw *YamlPackage) LoadBytes(yamlBytes []byte) error {
+	return collectErrors(yamlBytes)
+}
+
+
 func (yml *YamlPackage) collectErrors(data []byte) error {
 
 	if err := yaml.Unmarshal(data, yml); err != nil {
