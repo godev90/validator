@@ -6,8 +6,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
-	"runtime"
 	"strconv"
 
 	"gopkg.in/yaml.v3"
@@ -26,17 +24,11 @@ func NewYamlPackage() YamlPackage {
 }
 
 func (raw YamlPackage) LoadYaml(filename string) error {
-	log.Println("validator: Load error from file: ", filename)
+	log.Println("validator: Load error from file:", filename)
 
-	_, src, _, ok := runtime.Caller(0)
-	if !ok {
-		return errors.New("validator: Cannot get caller info")
-	}
-
-	data, err := os.ReadFile(fmt.Sprintf("%s/%s", filepath.Dir(src), filename))
-
+	data, err := os.ReadFile(filename)
 	if err != nil {
-		return err
+		return fmt.Errorf("validator: failed to read file %q: %w", filename, err)
 	}
 
 	return raw.collectErrors(data)
