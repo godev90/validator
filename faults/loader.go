@@ -24,11 +24,11 @@ func NewYamlPackage() YamlPackage {
 }
 
 func (raw YamlPackage) LoadYaml(filename string) error {
-	log.Println("validator: Load error from file:", filename)
+	log.Printf("validator: Attempting to load YAML file %q", filename)
 
 	data, err := os.ReadFile(filename)
 	if err != nil {
-		return fmt.Errorf("validator: failed to read file %q: %w", filename, err)
+		return fmt.Errorf("validator: Failed to read %q (%w)", filename, err)
 	}
 
 	return raw.collectErrors(data)
@@ -44,7 +44,7 @@ func (yml *YamlPackage) collectErrors(data []byte) error {
 		return err
 	}
 
-	log.Println("validator: Collecting errors.")
+	log.Println("validator: Collecting errors from yaml.")
 
 	for key, val := range yml.Errors {
 		code, _ := strconv.Atoi(val["code"])
