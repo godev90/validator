@@ -43,9 +43,8 @@ func (raw YamlPackage) LoadYaml(filename string) error {
 }
 
 func (raw *YamlPackage) LoadBytes(yamlBytes []byte) error {
-	return collectErrors(yamlBytes)
+	return raw.collectErrors(yamlBytes)
 }
-
 
 func (yml *YamlPackage) collectErrors(data []byte) error {
 
