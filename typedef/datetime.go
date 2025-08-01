@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/godev90/validator/faults"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Datetime struct {
@@ -145,6 +146,13 @@ func (d *Datetime) Scan(value any) error {
 	return d.err
 }
 
+func (d Datetime) ToProto() *timestamppb.Timestamp {
+	if !d.Valid() {
+		return nil
+	}
+	return timestamppb.New(d.t)
+}
+
 func NewDatetime(value time.Time) Datetime {
 	return Datetime{
 		t:   value,
@@ -156,4 +164,12 @@ func NewDatetime(value time.Time) Datetime {
 func DatetimeNow() Datetime {
 	var now time.Time = time.Now()
 	return NewDatetime(now)
+}
+
+func DatetimeFromProto(ts *timestamppb.Timestamp) *Datetime {
+	if ts == nil {
+		return nil
+	}
+	date := NewDatetime(ts.AsTime())
+	return &date
 }
