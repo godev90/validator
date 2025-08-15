@@ -28,7 +28,7 @@ func (d *Date) Set(val any) error {
 
 	switch v := val.(type) {
 	case time.Time:
-		d.t = v
+		d.t = v.In(localTime)
 		d.s = v.Format(dateLayout)
 		return nil
 
@@ -48,11 +48,11 @@ func (d *Date) Set(val any) error {
 			if strings.HasSuffix(layout, "Z") || layout == time.RFC3339 {
 				t, err = time.Parse(layout, v)
 			} else {
-				t, err = time.ParseInLocation(layout, v, time.Local)
+				t, err = time.ParseInLocation(layout, v, localTime)
 			}
 
 			if err == nil {
-				d.t = t
+				d.t = t.In(localTime)
 				d.s = t.Format(dateLayout)
 				return nil
 			}
@@ -178,6 +178,6 @@ func DateFromProto(ts *timestamppb.Timestamp) *Date {
 	if ts == nil {
 		return nil
 	}
-	date := NewDate(ts.AsTime())
+	date := NewDate(ts.AsTime().In(localTime))
 	return &date
 }

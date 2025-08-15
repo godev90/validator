@@ -1,8 +1,8 @@
 package faults
 
 import (
-    "log"
-	 _ "embed"
+	_ "embed"
+	"log"
 )
 
 //go:embed builtin_list.yaml
@@ -14,7 +14,7 @@ func init() {
 	err := builtinYaml.LoadBytes(builtinList)
 
 	if err != nil {
-	    log.Fatal("failed load file: ", err)
+		log.Fatal("failed load file: ", err)
 	}
 
 	ErrBadRequest = builtin("err_bad_request")
@@ -47,6 +47,7 @@ func init() {
 	ErrInternalServerError = builtin("err_internal_server_error")
 	ErrNotImplemented = builtin("err_not_implemented")
 	ErrBadGateway = builtin("err_bad_gateway")
+	ErrBadGatewayf = builtin("err_bad_gateway_f")
 	ErrServiceUnavailable = builtin("err_service_unavailable")
 	ErrGatewayTimeout = builtin("err_gateway_timeout")
 	ErrUnprocessable = builtin("err_unprocessable")
@@ -111,6 +112,7 @@ var (
 	ErrInternalServerError     Error
 	ErrNotImplemented          Error
 	ErrBadGateway              Error
+	ErrBadGatewayf             Error
 	ErrServiceUnavailable      Error
 	ErrGatewayTimeout          Error
 	ErrUnprocessable           Error

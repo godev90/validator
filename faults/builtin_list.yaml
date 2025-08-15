@@ -149,6 +149,11 @@ errors:
     en: "Bad gateway."
     id: "Gateway tidak valid."
 
+  err_bad_gateway_f:
+    code: 5502
+    en: "Bad gateway (%s)."
+    id: "Gateway tidak valid (%s)."
+
   err_service_unavailable:
     code: 5503
     en: "Service unavailable."
