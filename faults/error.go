@@ -50,7 +50,7 @@ func builtin(key string) Error {
 func New(err error, attr *ErrAttr, args ...any) Error {
 
 	newError := Error{
-		err:           errors.New(err.Error()),
+		err:           err,
 		localMessages: make(map[LanguageTag]string),
 	}
 

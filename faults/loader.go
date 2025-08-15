@@ -23,7 +23,7 @@ func NewYamlPackage() YamlPackage {
 	}
 }
 
-func (raw YamlPackage) LoadYaml(filename string) error {
+func (raw *YamlPackage) LoadYaml(filename string) error {
 	log.Printf("validator: Attempting to load YAML file %q", filename)
 
 	data, err := os.ReadFile(filename)
@@ -64,7 +64,7 @@ func (yml *YamlPackage) collectErrors(data []byte) error {
 }
 
 func (yml YamlPackage) NewError(key string) Error {
-	errmsg := fmt.Sprintf("validator errorx: %s.", key)
+	errmsg := fmt.Sprintf("validator error: %s.", key)
 	err := Error{
 		code:          http.StatusInternalServerError,
 		err:           errors.New(errmsg),
