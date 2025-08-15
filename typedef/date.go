@@ -170,7 +170,7 @@ func NewDate(value time.Time) Date {
 }
 
 func DateToday() Date {
-	var now time.Time = time.Now()
+	var now time.Time = time.Now().In(localTime)
 	return NewDate(now)
 }
 

@@ -11,6 +11,16 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+var localTime *time.Location
+
+func SetTimezone(timezone string) {
+	loc, err := time.LoadLocation(timezone)
+	if err != nil {
+		loc, _ = time.LoadLocation("Local")
+	}
+	localTime = loc
+}
+
 type Datetime struct {
 	t   time.Time
 	s   string
@@ -162,7 +172,7 @@ func NewDatetime(value time.Time) Datetime {
 }
 
 func DatetimeNow() Datetime {
-	var now time.Time = time.Now()
+	var now time.Time = time.Now().In(localTime)
 	return NewDatetime(now)
 }
 
