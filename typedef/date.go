@@ -162,6 +162,7 @@ func (d Date) ToProto() *timestamppb.Timestamp {
 }
 
 func NewDate(value time.Time) Date {
+	value = value.In(localTime)
 	return Date{
 		t:   value,
 		s:   value.Format(dateLayout),
