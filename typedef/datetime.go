@@ -13,6 +13,12 @@ import (
 
 var localTime *time.Location
 
+func init() {
+	localTime, _ = time.LoadLocation("Local")
+}
+
+// SetTimezone sets datetime timezone.
+// If timezone is invalid then the timezone is Local
 func SetTimezone(timezone string) {
 	loc, err := time.LoadLocation(timezone)
 	if err != nil {
